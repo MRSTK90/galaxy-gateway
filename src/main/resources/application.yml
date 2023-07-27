@@ -5,12 +5,29 @@ server:
 
 
 spring:
+  main:
+    web-application-type: reactive
   application:
     name: galaxy-gateway-service
   cloud:
     gateway:
+      default-filters:
+        - name: GlobalFilter
       routes:
         - id: user-service
           uri: http://localhost:9991
           predicates:
             - Path=/login
+          filters:
+            - RewritePath=/login, /user/login
+
+        - id: user-status-service
+          uri: http://localhost:9991
+          predicates:
+            - Path=/status
+          filters:
+            - RewritePath=/status, /user/status
+
+logging:
+  level:
+    root: debug
