@@ -11,8 +11,6 @@ spring:
     name: galaxy-gateway-service
   cloud:
     gateway:
-      default-filters:
-        - name: GlobalFilter
       routes:
         - id: user-service
           uri: http://localhost:9991
@@ -27,6 +25,7 @@ spring:
             - Path=/status
           filters:
             - RewritePath=/status, /user/status
+            - SampleCustomFilter
 
 logging:
   level:
